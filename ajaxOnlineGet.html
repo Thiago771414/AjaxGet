@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button id="bt">Carrega usuário</button>
+    <p id="resposta" style="border: thin solid black; padding:2ex;"></p>
+
+    <script>
+
+        bt.onclick = () => {
+            ajax();
+        }
+
+        function ajax() {
+
+            try {
+
+                let xhttp = new XMLHttpRequest();
+
+                xhttp.onreadystatechange = function() {
+
+                    if (xhttp.readyState == 4) {
+
+                        if (xhttp.status == 200) {
+
+                            let objeto = JSON.parse(xhttp.responseText);
+                                console.log(objeto)
+                                resposta.innerHTML = objeto.data.map((e) => e.email+"<br/>");
+                                resposta.innerHTML = objeto.data.map((e) => e.first_name + "<br/>" + e.last_name + "<br/>" + e.email + "<br/>" + e.avatar + "<br/>");
+                        } else {
+
+                            console.warning('status: ' + xhttp.status);
+
+                        }
+
+                    }
+
+                };
+
+                xhttp.open('GET', 'https://reqres.in/api/users', true);
+                xhttp.send();
+
+            } catch (e) {
+
+                alert("Erro na comunicação com o servidor!")
+
+            }
+        }
+
+    </script>
+
+</body>
+</html>
